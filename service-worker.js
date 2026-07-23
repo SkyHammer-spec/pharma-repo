@@ -20,7 +20,8 @@ self.addEventListener("activate", (e) => {
 // (offline / no connection) - preserving the original offline-support intent.
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
-  if (url.hostname.includes("drive.google.com")) return; // never intercept Drive data calls
+  const BYPASS_HOSTS = new Set(["drive.google.com"]);
+  if (BYPASS_HOSTS.has(url.hostname)) return; // never intercept Drive data calls
 
   e.respondWith(
     fetch(e.request)
